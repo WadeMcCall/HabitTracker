@@ -17,7 +17,7 @@ const RegistrationPage = () => {
     };
 
     try {
-      await axios.post('http://localhost:3001/api/users/register', userData);
+      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/users/register`, userData);
       alert('User registered successfully');
     } catch (error) {
       console.error('Registration failed:', error);

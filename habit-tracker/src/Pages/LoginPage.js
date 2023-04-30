@@ -20,7 +20,7 @@ function LoginPage() {
   
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post('http://localhost:3001/api/users/login', data);
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/users/login`, data);
   
       if (response.status === 200) {
         const { token } = response.data;

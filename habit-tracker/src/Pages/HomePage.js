@@ -9,7 +9,7 @@ const HomePage = () => {
     const fetchHabits = async () => {
       try {
         const token = localStorage.getItem('authToken');
-        const response = await axios.get('http://localhost:3001/api/habits', {
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/habits`, {
           headers: { Authorization: `${token}` },
         });
         console.log(response.data);

@@ -20,7 +20,7 @@ const NewHabitPage = () => {
     try {
       const token = localStorage.getItem('authToken');
       const response = await axios.post(
-        'http://localhost:3001/api/habits',
+        `${process.env.REACT_APP_API_BASE_URL}/api/habits`,
         { userId, name, description, frequency },
         { headers: { Authorization: `${token}` } },
       );
