@@ -2,17 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+import '../css/HomePage.css'
+import HabitCard from '../Components/HabitCard'
+
 const HomePage = () => {
   const [habits, setHabits] = useState([]);
+  const token = localStorage.getItem('authToken');
 
   useEffect(() => {
     const fetchHabits = async () => {
       try {
-        const token = localStorage.getItem('authToken');
         const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/habits`, {
           headers: { Authorization: `${token}` },
         });
-        console.log(response.data);
         setHabits(response.data);
       } catch (error) {
         console.error('Error fetching habits:', error);
@@ -22,21 +24,29 @@ const HomePage = () => {
     fetchHabits();
   }, []);
 
+  const deleteHabit = async (habitId) => {
+    try {
+      await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/api/habits/${habitId}`, {
+        headers: { Authorization: `${token}` },
+      });
+      // Remove the habit from the state
+      setHabits(habits.filter((habit) => habit._id !== habitId));
+    } catch (error) {
+      console.error('Error deleting habit:', error);
+    }
+  };
+
   return (
     <div>
       <h1>Habits</h1>
       <Link to="/new-habit">
         <button>Add New Habit</button>
       </Link>
-      <ul>
+      <div className="habits-grid">
         {habits.map((habit) => (
-          <li key={habit._id}>
-            <h3>{habit.name}</h3>
-            <p>{habit.description}</p>
-            <p>Frequency: {habit.frequency}</p>
-          </li>
+          <HabitCard key={habit._id} habit={habit} onDelete={deleteHabit} />
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

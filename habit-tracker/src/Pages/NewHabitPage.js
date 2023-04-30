@@ -25,7 +25,6 @@ const NewHabitPage = () => {
         { headers: { Authorization: `${token}` } },
       );
       
-      console.log('Habit created:', response.data);
       navigate("/");
     } catch (error) {
       console.error('Error creating habit:', error);
