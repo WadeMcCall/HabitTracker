@@ -23,7 +23,6 @@ function LoginPage() {
       const response = await axios.post('http://localhost:3001/api/users/login', data);
   
       if (response.status === 200) {
-        console.log("success")
         const { token } = response.data;
         localStorage.setItem('authToken', token);
         navigate("/");

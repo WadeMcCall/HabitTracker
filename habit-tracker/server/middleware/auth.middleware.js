@@ -10,6 +10,7 @@ function authenticateJWT(req, res, next) {
     if (err) {
       return res.status(403).json({ error: 'Failed to authenticate token' });
     }
+    console.log('Decoded token:', decoded);
     req.userId = decoded.id;
     next();
   });

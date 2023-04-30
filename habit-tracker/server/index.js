@@ -72,6 +72,19 @@ app.post('/api/habits', authenticateJWT, async (req, res) => {
   }
 });
 
+app.get('/api/habits', authenticateJWT, async (req, res) => {
+  try {
+    const habits = await Habit.find({ userId: req.userId });
+
+    console.log('req.userId:', req.userId);
+    console.log('Habits found:', habits);
+    
+    res.status(200).json(habits);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
