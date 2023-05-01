@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'universal-cookie';
 
 const schema = yup.object().shape({
   email: yup.string().required().email(),
@@ -17,6 +18,7 @@ function LoginPage() {
   });
 
   const navigate = useNavigate();
+  const cookies = new Cookies();
   
   const onSubmit = async (data) => {
     try {
@@ -24,7 +26,7 @@ function LoginPage() {
   
       if (response.status === 200) {
         const { token } = response.data;
-        localStorage.setItem('authToken', token);
+        cookies.set('authToken', token);
         navigate("/");
       } else {
         // Handle login error

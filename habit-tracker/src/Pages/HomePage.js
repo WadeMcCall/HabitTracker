@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'universal-cookie';
 
 import styles from '../css/HomePage.module.css'
 import HabitCard from '../Components/HabitCard'
+import MainLayout from '../Components/MainLayout';
 
 const HomePage = () => {
   const [habits, setHabits] = useState([]);
-  const token = localStorage.getItem('authToken');
+  const cookies = new Cookies();
+  const token = cookies.get('authToken');
 
   useEffect(() => {
     const fetchHabits = async () => {
@@ -37,21 +40,24 @@ const HomePage = () => {
   };
 
   return (
-    <div>
-      <h1>Habits</h1>
-      <div className={styles.header}>
-        <div className={styles.linkContainer}>
-            <Link to="/new-habit">
-              <button className={styles.addHabitButton}>Add New Habit</button>
-            </Link>
+    
+    <MainLayout>
+      <div>
+        <h1>Habits</h1>
+        <div className={styles.header}>
+          <div className={styles.linkContainer}>
+              <Link to="/new-habit">
+                <button className={styles.addHabitButton}>Add New Habit</button>
+              </Link>
+          </div>
+        </div>
+        <div className={styles.habitsGrid}>
+          {habits.map((habit) => (
+            <HabitCard key={habit._id} habit={habit} onDelete={deleteHabit} />
+          ))}
         </div>
       </div>
-      <div className={styles.habitsGrid}>
-        {habits.map((habit) => (
-          <HabitCard key={habit._id} habit={habit} onDelete={deleteHabit} />
-        ))}
-      </div>
-    </div>
+    </MainLayout>
   );
 };
 
