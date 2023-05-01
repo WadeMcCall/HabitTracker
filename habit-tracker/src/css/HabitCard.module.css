@@ -1,0 +1,25 @@
+/* HabitCard.module.css */
+
+.habitCard {
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 5px;
+    width: calc(33.333% - 2rem);
+  }
+  
+  .deleteHabitButton {
+    background-color: #f44336;
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .deleteHabitButton:hover {
+    background-color: #da190b;
+  }
+  

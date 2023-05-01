@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-import '../css/HomePage.css'
+import styles from '../css/HomePage.module.css'
 import HabitCard from '../Components/HabitCard'
 
 const HomePage = () => {
@@ -39,10 +39,14 @@ const HomePage = () => {
   return (
     <div>
       <h1>Habits</h1>
-      <Link to="/new-habit">
-        <button>Add New Habit</button>
-      </Link>
-      <div className="habits-grid">
+      <div className={styles.header}>
+        <div className={styles.linkContainer}>
+            <Link to="/new-habit">
+              <button className={styles.addHabitButton}>Add New Habit</button>
+            </Link>
+        </div>
+      </div>
+      <div className={styles.habitsGrid}>
         {habits.map((habit) => (
           <HabitCard key={habit._id} habit={habit} onDelete={deleteHabit} />
         ))}
