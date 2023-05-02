@@ -18,8 +18,56 @@ router.post('/', authenticateJWT, async (req, res) => {
 router.get('/', authenticateJWT, async (req, res) => {
   try {
     const habits = await Habit.find({ userId: req.userId });
-
     res.status(200).json(habits);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+router.get('/habitCompletions/:habitId', authenticateJWT, async (req, res) => {
+  try {
+    const habitId = req.params.habitId;
+    const habitCompletions = await HabitCompletion.find({ habitId, userId: req.userId });
+    res.status(200).json(habitCompletions);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+router.get('/:habitId', authenticateJWT, async (req, res) => {
+  try {
+    const habitId = req.params.habitId;
+    const habit = await Habit.findOne({ _id: habitId, userId: req.userId });
+
+    if (!habit) {
+      return res.status(404).json({ error: 'Habit not found' });
+    }
+
+    res.status(200).json(habit);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+
+router.put('/:habitId', authenticateJWT, async (req, res) => {
+  try {
+    const { habitId } = req.params;
+    const { userId, name, description, daysOfWeek } = req.body;
+
+    const habit = await Habit.findOne({ _id: habitId, userId });
+
+    if (!habit) {
+      return res.status(404).json({ error: 'Habit not found' });
+    }
+
+    habit.name = name || habit.name;
+    habit.description = description || habit.description;
+    habit.daysOfWeek = daysOfWeek || habit.daysOfWeek;
+
+    await habit.save();
+
+    res.status(200).json(habit);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

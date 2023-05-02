@@ -1,0 +1,80 @@
+/* Calendar.module.css */
+.react-calendar {
+    width: 350px;
+    max-width: 100%;
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .react-calendar__navigation {
+    background-color: #4a4a4a;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5em 1em;
+  }
+  
+  .react-calendar__navigation button {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .react-calendar__navigation button:hover {
+    color: #ccc;
+  }
+  
+  .react-calendar__navigation__label {
+    color: white;
+    font-weight: bold;
+  }
+  
+  .react-calendar__month-view__weekdays {
+    background-color: #f5f5f5;
+  }
+  
+  .react-calendar__month-view__weekdays__weekday {
+    text-align: center;
+    font-weight: bold;
+    padding: 0.5em;
+  }
+  
+  .react-calendar__month-view__days__day {
+    text-align: center;
+    padding: 0.5em;
+  }
+  
+  .react-calendar__tile {
+    position: relative;
+  }
+  
+  .react-calendar__tile:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .react-calendar__tile--active {
+    background-color: #4a4a4a;
+    color: white;
+  }
+  
+  .completed {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  /* Add rounded corners to the first and last day of the week */
+  .react-calendar__month-view__days__day:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+  
+  .react-calendar__month-view__days__day:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+  
