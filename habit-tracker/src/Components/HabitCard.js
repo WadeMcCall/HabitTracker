@@ -7,7 +7,7 @@ const HabitCard = ({ habit, onDelete }) => {
       <p className="text-gray-700 mb-4">{habit.description}</p>
       <p className="text-gray-500 mb-6">Frequency: {habit.frequency}</p>
       <button
-        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none"
+        className="bg-rose-300 text-white px-4 py-2 rounded hover:bg-rose-400 focus:outline-none"
         onClick={() => onDelete(habit._id)}
       >
         Delete Habit

@@ -2,8 +2,7 @@ import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useNavigate } from "react-router-dom";
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from "react-router-dom";
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 
@@ -36,35 +35,61 @@ function LoginPage() {
       console.error('Login error:', error);
     }
   };
-
+  
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label>Email:</label>
-          <Controller
-            name="email"
-            control={control}
-            defaultValue=""
-            render={({ field }) => <input {...field} />}
-          />
-          {errors.email && <p>{errors.email.message}</p>}
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h1 className="text-2xl font-semibold mb-6 text-center">Login</h1>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-2">Email:</label>
+            <Controller
+              name="email"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <input
+                  {...field}
+                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                />
+              )}
+            />
+            {errors.email && (
+              <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
+            )}
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-2">Password:</label>
+            <Controller
+              name="password"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <input
+                  type="password"
+                  {...field}
+                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                />
+              )}
+            />
+            {errors.password && (
+              <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>
+            )}
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-indigo-500 text-white py-2 rounded-md hover:bg-indigo-600 focus:outline-none"
+          >
+            Login
+          </button>
+        </form>
+  
+        <div className="mt-4 text-center">
+          <Link to="/register" className="text-indigo-500 hover:text-indigo-600">
+            Register
+          </Link>
         </div>
-        <div>
-          <label>Password:</label>
-          <Controller
-            name="password"
-            control={control}
-            defaultValue=""
-            render={({ field }) => <input type="password" {...field} />}
-          />
-          {errors.password && <p>{errors.password.message}</p>}
-        </div>
-        <button type="submit">Login</button>
-      </form>
-
-      <Link to="/register">Register</Link>
+      </div>
     </div>
   );
 }
