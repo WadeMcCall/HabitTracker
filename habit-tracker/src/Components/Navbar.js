@@ -1,16 +1,15 @@
 import React from 'react';
 import LogoutButton from './LogoutButton';
-import styles from '../css/Navbar.module.css'
 
 const Navbar = () => {
   return (
-    <nav className={styles.navbar}>
-      <div>
-        {/* Add any additional navigation items or branding here */}
-      </div>
-      <div>
-        <LogoutButton />
-      </div>
+    <nav className="bg-gray-800 text-white fixed top-0 left-0 right-0 p-3 flex justify-between items-center">
+      {/* Your logo or app name */}
+      <a href="/" className="text-xl font-bold">
+        Habit Tracker!
+      </a>
+      {/* Logout Button */}
+      <LogoutButton />
     </nav>
   );
 };

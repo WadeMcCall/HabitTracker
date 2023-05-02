@@ -31,31 +31,51 @@ const NewHabitPage = () => {
       console.error('Error creating habit:', error);
     }
   };
-
+  
   return (
     <MainLayout>
-    <div>
-      <h1>Create a new habit</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Name:
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
-        </label>
-        <label>
-          Description:
-          <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
-        </label>
-        <label>
-          Frequency:
-          <select value={frequency} onChange={(e) => setFrequency(e.target.value)}>
-            <option value="daily">Daily</option>
-            <option value="weekly">Weekly</option>
-            <option value="monthly">Monthly</option>
-          </select>
-        </label>
-        <button type="submit">Create Habit</button>
-      </form>
-    </div>
+      <div className="bg-white p-6 w-full sm:w-96 mx-auto my-8 shadow-lg rounded-lg">
+        <h1 className="text-2xl font-semibold mb-6">Create a new habit</h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <label className="block">
+            <span className="text-gray-700">Name:</span>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              className="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            />
+          </label>
+          <label className="block">
+            <span className="text-gray-700">Description:</span>
+            <input
+              type="text"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            />
+          </label>
+          <label className="block">
+            <span className="text-gray-700">Frequency:</span>
+            <select
+              value={frequency}
+              onChange={(e) => setFrequency(e.target.value)}
+              className="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+            </select>
+          </label>
+          <button
+            type="submit"
+            className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md"
+          >
+            Create Habit
+          </button>
+        </form>
+      </div>
     </MainLayout>
   );
 };

@@ -38,20 +38,21 @@ const HomePage = () => {
       console.error('Error deleting habit:', error);
     }
   };
-
+  
   return (
-    
     <MainLayout>
-      <div>
-        <h1>Habits</h1>
-        <div className={styles.header}>
-          <div className={styles.linkContainer}>
-              <Link to="/new-habit">
-                <button className={styles.addHabitButton}>Add New Habit</button>
-              </Link>
+      <div className="w-full mx-auto my-8">
+        <h1 className="text-2xl font-semibold mb-6">Habits</h1>
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <Link to="/new-habit">
+              <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md">
+                Add New Habit
+              </button>
+            </Link>
           </div>
         </div>
-        <div className={styles.habitsGrid}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {habits.map((habit) => (
             <HabitCard key={habit._id} habit={habit} onDelete={deleteHabit} />
           ))}
@@ -59,6 +60,7 @@ const HomePage = () => {
       </div>
     </MainLayout>
   );
+  
 };
 
 export default HomePage;

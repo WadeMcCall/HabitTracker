@@ -1,12 +1,15 @@
 import React from 'react';
 import Navbar from './Navbar';
-import '../css/MainLayout.css';
 
 const MainLayout = ({ children }) => {
   return (
-    <div className="main-layout">
+    <div
+      className="min-h-screen"
+    >
       <Navbar />
-      <main className="main-content">{children}</main>
+      <div className="container mx-auto px-4 py-10">
+        {children}
+      </div>
     </div>
   );
 };

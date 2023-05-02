@@ -28,7 +28,7 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ error: 'Invalid password' });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
     res.status(200).json({
       message: 'User logged in successfully',
@@ -37,6 +37,16 @@ router.post('/login', async (req, res) => {
     });
   } catch (err) {
     res.status(400).json({ error: err.message });
+  }
+});
+
+router.get('/verifyToken', async (req, res) => {
+  try {
+    const token = req.headers.authorization;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    res.status(200).json({ message: 'Token is valid' });
+  } catch (err) {
+    res.status(401).json({ error: 'Token is invalid or expired' });
   }
 });
 
