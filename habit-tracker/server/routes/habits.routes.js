@@ -66,6 +66,8 @@ router.post('/:habitId/complete', authenticateJWT, async (req, res) => {
       completionDate,
     });
 
+    habit.lastCompletion = new Date();
+    await habit.save();
     await habitCompletion.save();
 
     res.status(201).json({ message: 'Habit completed', habitCompletion });

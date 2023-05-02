@@ -32,7 +32,6 @@ function LoginPage() {
       }
     } catch (error) {
       if(error.response.data.error == 'Invalid password') {
-        console.log("here")
         setError('password', { message: 'Invalid password' });
       }
       console.error('Login error:', error);

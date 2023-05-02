@@ -9,8 +9,10 @@ const NewHabitPage = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [frequency, setFrequency] = useState('daily');
-  const navigate = useNavigate();
   const [daysOfWeek, setDaysOfWeek] = useState([]);
+  const [dayOfMonth, setDayOfMonth] = useState(0);
+  const [weekDay, setWeekDay] = useState('');
+  const navigate = useNavigate();
 
   const dayShortNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -31,11 +33,11 @@ const NewHabitPage = () => {
     const token = cookies.get('authToken');
     const decodedToken = jwt_decode(token);
     const userId = decodedToken.id;
-
+    var monthDay = dayOfMonth == 0 ? null : dayOfMonth;
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_BASE_URL}/api/habits`,
-        { userId, name, description, frequency, daysOfWeek  },
+        { userId, name, description, frequency, daysOfWeek, monthDay, weekDay },
         { headers: { Authorization: `${token}` } },
       );
       
@@ -109,6 +111,35 @@ const NewHabitPage = () => {
               ))}
             </div>
           </fieldset>
+        )}
+        {frequency === 'weekly' && (
+          <label className="block">
+            <span className="text-gray-700">Day of the week:</span>
+            <select
+              value={weekDay}
+              onChange={(e) => setWeekDay(e.target.value === 'none' ? null : e.target.value)}
+              className="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >
+              <option value="none">None</option>
+              {['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'].map((day) => (
+                <option key={day} value={day}>{day.charAt(0).toUpperCase() + day.slice(1)}</option>
+              ))}
+            </select>
+          </label>
+        )}
+        {frequency === 'monthly' && (
+          <label className="block">
+            <span className="text-gray-700">Day of the month:</span>
+            <input
+              type="number"
+              min="0"
+              max="31"
+              value={dayOfMonth}
+              onChange={(e) => setDayOfMonth(e.target.value === 0 ? null : parseInt(e.target.value))}
+              className="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            />
+            <div className="text-sm text-gray-500">Leave 0 for no specific day.</div>
+          </label>
         )}
           <button
             type="submit"

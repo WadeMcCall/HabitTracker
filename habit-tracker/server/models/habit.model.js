@@ -9,6 +9,17 @@ const habitSchema = new mongoose.Schema({
     type: String,
     enum: ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
   }],
+  weekDay: {
+    type: String,
+    enum: ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', null]
+  },
+  dayOfMonth: {
+    type: Number,
+    min: 1,
+    max: 31,
+    default: null
+  },
+  lastCompletion: Date,
   createdAt: { type: Date, default: Date.now },
 });
 
