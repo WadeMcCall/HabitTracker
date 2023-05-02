@@ -10,6 +10,19 @@ const NewHabitPage = () => {
   const [description, setDescription] = useState('');
   const [frequency, setFrequency] = useState('daily');
   const navigate = useNavigate();
+  const [daysOfWeek, setDaysOfWeek] = useState([]);
+
+  const dayShortNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+
+  const handleDaysOfWeekChange = (e) => {
+    const day = e.target.value;
+    if (e.target.checked) {
+      setDaysOfWeek([...daysOfWeek, day]);
+    } else {
+      setDaysOfWeek(daysOfWeek.filter((d) => d !== day));
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,7 +35,7 @@ const NewHabitPage = () => {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_BASE_URL}/api/habits`,
-        { userId, name, description, frequency },
+        { userId, name, description, frequency, daysOfWeek  },
         { headers: { Authorization: `${token}` } },
       );
       
@@ -66,8 +79,37 @@ const NewHabitPage = () => {
               <option value="daily">Daily</option>
               <option value="weekly">Weekly</option>
               <option value="monthly">Monthly</option>
+              <option value="custom">Custom</option>
             </select>
           </label>
+        {frequency === 'custom' && (
+          <fieldset className="space-y-2">
+            <legend className="text-gray-700">Days of the week:</legend>
+            <div className="grid grid-cols-3 gap-2">
+              {['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'].map((day, index) => (
+                <div key={day}>
+                  <label
+                    key={day}
+                    className={`inline-flex items-center cursor-pointer w-full justify-center ${
+                      daysOfWeek.includes(day)
+                        ? 'bg-blue-500 text-white'
+                        : 'bg-gray-200 text-gray-700'
+                    } px-3 py-1 rounded-md shadow-sm select-none`}
+                  >
+                    <input
+                      type="checkbox"
+                      value={day}
+                      onChange={handleDaysOfWeekChange}
+                      checked={daysOfWeek.includes(day)}
+                      className="hidden"
+                    />
+                    <span className="ml-2 capitalize">{dayShortNames[index]}</span>
+                  </label>
+                </div>
+              ))}
+            </div>
+          </fieldset>
+        )}
           <button
             type="submit"
             className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md"

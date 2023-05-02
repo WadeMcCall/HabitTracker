@@ -4,7 +4,11 @@ const habitSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   name: { type: String, required: true },
   description: String,
-  frequency: { type: String, required: true, enum: ['daily', 'weekly', 'monthly'] },
+  frequency: { type: String, required: true, enum: ['daily', 'weekly', 'monthly', 'custom'] },
+  daysOfWeek: [{
+    type: String,
+    enum: ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
+  }],
   createdAt: { type: Date, default: Date.now },
 });
 

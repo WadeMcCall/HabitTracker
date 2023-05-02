@@ -1,5 +1,6 @@
 const express = require('express');
 const Habit = require('../models/habit.model');
+const HabitCompletion = require('../models/habitCompletion.model');
 const authenticateJWT = require('../middleware/auth.middleware');
 
 const router = express.Router();
@@ -38,5 +39,41 @@ router.delete('/:id', authenticateJWT, async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 });
+
+router.post('/:habitId/complete', authenticateJWT, async (req, res) => {
+  try {
+    const { habitId } = req.params;
+    const userId = req.userId; 
+
+    // Check if the habit exists
+    const habit = await Habit.findById(habitId);
+    if (!habit) {
+      return res.status(404).json({ error: 'Habit not found' });
+    }
+    
+    // Check if the habit belongs to the current user
+    if (habit.userId.toString() != userId) {
+      return res.status(403).json({ error: 'Unauthorized' });
+    }
+
+    // Create a new habit completion
+    const completionDate = new Date();
+    completionDate.setHours(0, 0, 0, 0);
+
+    const habitCompletion = new HabitCompletion({
+      userId,
+      habitId,
+      completionDate,
+    });
+
+    await habitCompletion.save();
+
+    res.status(201).json({ message: 'Habit completed', habitCompletion });
+  } catch (error) {
+    console.error('Error completing habit:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 
 module.exports = router;
