@@ -12,7 +12,7 @@ const schema = yup.object().shape({
 });
 
 function LoginPage() {
-  const { control, handleSubmit, formState: { errors } } = useForm({
+  const { control, handleSubmit, setError, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
   });
 
@@ -25,13 +25,16 @@ function LoginPage() {
   
       if (response.status === 200) {
         const { token } = response.data;
-        cookies.set('authToken', token);
+        cookies.set('authToken', token, {expires: new Date(Date.now() + 24*60*60*1000)});
         navigate("/");
       } else {
-        // Handle login error
         console.error('Login failed');
       }
     } catch (error) {
+      if(error.response.data.error == 'Invalid password') {
+        console.log("here")
+        setError('password', { message: 'Invalid password' });
+      }
       console.error('Login error:', error);
     }
   };

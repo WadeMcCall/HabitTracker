@@ -44,7 +44,6 @@ const HomePage = () => {
   
     const lastCompletion = new Date(habit.lastCompletion);
   
-    console.log(habit);
     return today.getDay() === lastCompletion.getDay();
   };
 
