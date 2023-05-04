@@ -12,8 +12,6 @@ const NewHabitPage = () => {
   const [daysOfWeek, setDaysOfWeek] = useState([]);
   const navigate = useNavigate();
 
-  const dayShortNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     

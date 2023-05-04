@@ -1,0 +1,28 @@
+.day {
+  @apply text-center w-full h-12 rounded-lg flex items-center justify-center transition-all duration-200 cursor-pointer;
+}
+
+.day:hover {
+  @apply transform scale-105;
+}
+
+.selected {
+  @apply bg-amber-100 border border-amber-500 font-bold;
+}
+
+.white {
+  @apply bg-white border border-gray-300;
+}
+
+.red {
+  @apply bg-red-100 border border-red-500;
+}
+
+.green {
+  @apply bg-green-100 border border-green-500;
+}
+
+.purple {
+  @apply bg-purple-100 border border-purple-500;
+}
+  

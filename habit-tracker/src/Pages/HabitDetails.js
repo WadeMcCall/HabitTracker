@@ -1,7 +1,6 @@
-// src/components/HabitDetails.js
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Calendar from '../Components/Calendar';
+import Calendar from '../Components/Calendar/Calendar';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 
@@ -11,6 +10,19 @@ const HabitDetails = () => {
   const [completions, setCompletions] = useState([]);
   const cookies = new Cookies();
   const token = cookies.get('authToken');
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth();
+
+  const daysOfWeekMap = {
+    0: 'sunday',
+    1: 'monday',
+    2: 'tuesday',
+    3: 'wednesday',
+    4: 'thursday',
+    5: 'friday',
+    6: 'saturday',
+  };
 
   const fetchHabitData = async () => {
     try {
@@ -29,10 +41,37 @@ const HabitDetails = () => {
       console.error(error);
     }
   };
-
   useEffect(() => {
     fetchHabitData();
   }, [habitId]);
+
+  const onDayClick = (date) => {
+    console.log('Selected date:', date);
+  };
+
+  const shouldHabitBeCompletedOnDate = (date) => {
+    const createdAtDate = new Date(habit.createdAt);
+    if(date.getTime() < createdAtDate.getTime()) return false;
+    if(habit.daysOfWeek.length === 0) {
+      return true;
+    }
+    const dayOfWeek = daysOfWeekMap[date.getDay()];
+    return habit.daysOfWeek.includes(dayOfWeek);
+  }
+
+  const colorCodeFunction = (date) => {
+    const completionDates = completions.map((completion) => new Date(completion.completionDate));
+  
+    if (completionDates.some((completionDate) => completionDate.toDateString() === date.toDateString())) {
+      return 'green';
+    } else if (shouldHabitBeCompletedOnDate(date) && date > today) {
+      return 'purple';
+    } else if(shouldHabitBeCompletedOnDate(date) && date < today) {
+      return 'red';
+    }
+    return 'white';
+  };
+  
 
   if (!habit) return <p>Loading...</p>;
 
@@ -42,7 +81,12 @@ const HabitDetails = () => {
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">{habit.name}</h2>
         <p className="text-gray-500 mb-6">{habit.description}</p>
         <div className="border-t border-gray-200 pt-6">
-          <Calendar completions={completions} />
+          <Calendar
+            year={currentYear}
+            month={currentMonth}
+            onDayClick={onDayClick}
+            colorCodeFunction={colorCodeFunction}
+          />
         </div>
       </div>
     </div>

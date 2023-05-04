@@ -1,0 +1,20 @@
+.calendar {
+    @apply w-full;
+  }
+  
+  .grid {
+    @apply gap-2;
+  }
+  
+  .monthNav {
+    @apply flex justify-between items-center py-4;
+  }
+  
+  .monthName {
+    @apply text-xl font-semibold;
+  }
+  
+  .dayName {
+    @apply text-center flex-1;
+  }
+  

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 const HabitCard = ({ habit, onDelete, onComplete, completedToday }) => {
   const daysOrder = [
@@ -27,7 +27,7 @@ const HabitCard = ({ habit, onDelete, onComplete, completedToday }) => {
 
   return (
     <div className="flex flex-col w-full mb-6">
-      <Link to={`/edit/${habit._id}`} className="flex-grow">
+      <Link to={`/habit/${habit._id}`} className="flex-grow">
         <div className="bg-white shadow-lg p-6 w-full hover:bg-gray-100 cursor-pointer transition-colors duration-200">
           <h3 className="text-xl font-semibold mb-3">{habit.name}</h3>
           <p className="text-gray-700 mb-4">{habit.description}</p>
