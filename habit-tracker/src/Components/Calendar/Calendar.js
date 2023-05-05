@@ -66,7 +66,7 @@ import Day from './Day';
     return (
       <div className={`${styles.calendar}`}>
         <div className={`${styles.monthNav}`}>
-          <button className="prev-button" onClick={handlePreviousMonth}>
+          <button className={`${styles.prevButton}`} onClick={handlePreviousMonth}>
             &lt;
           </button>
           <span className={`${styles.monthName}`}>
@@ -75,7 +75,7 @@ import Day from './Day';
               year: 'numeric',
             })}
           </span>
-          <button className="next-button" onClick={handleNextMonth}>
+          <button className={`${styles.nextButton}`} onClick={handleNextMonth}>
             &gt;
           </button>
         </div>

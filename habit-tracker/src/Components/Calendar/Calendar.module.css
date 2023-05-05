@@ -18,3 +18,12 @@
     @apply text-center flex-1;
   }
   
+.prevButton,
+.nextButton {
+  @apply border border-gray-300 bg-gray-50 px-3 py-1 rounded-md text-gray-700 transition-all duration-200;
+}
+
+.prevButton:hover,
+.nextButton:hover {
+  @apply border-gray-500 text-gray-900 bg-gray-200;
+}
