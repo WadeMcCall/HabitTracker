@@ -17,10 +17,18 @@ router.post('/', authenticateJWT, async (req, res) => {
 
 router.get('/', authenticateJWT, async (req, res) => {
   try {
-    const habits = await Habit.find({ userId: req.userId });
-    res.status(200).json(habits);
+    const habits = await Habit.find({ userId: req.userId }).lean().exec();
+    const completions = await HabitCompletion.find({ userId: req.userId }).lean().exec();
+
+    const habitsWithCompletions = habits.map(habit => {
+      const habitCompletions = completions.filter(completion => completion.habitId.toString() === habit._id.toString());
+      return { ...habit, completions: habitCompletions };
+    });
+
+    res.status(200).json(habitsWithCompletions);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    console.error('Error fetching habits:', err);
+    res.status(500).json({ message: 'Error fetching habits' });
   }
 });
 
@@ -30,25 +38,27 @@ router.get('/habitCompletions/:habitId', authenticateJWT, async (req, res) => {
     const habitCompletions = await HabitCompletion.find({ habitId, userId: req.userId });
     res.status(200).json(habitCompletions);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(500).json({ error: err.message });
   }
 });
 
 router.get('/:habitId', authenticateJWT, async (req, res) => {
   try {
     const habitId = req.params.habitId;
-    const habit = await Habit.findOne({ _id: habitId, userId: req.userId });
+    const habit = await Habit.findOne({ _id: habitId, userId: req.userId }).lean().exec();
 
     if (!habit) {
       return res.status(404).json({ error: 'Habit not found' });
     }
 
-    res.status(200).json(habit);
+    const completions = await HabitCompletion.find({ habitId: habitId, userId: req.userId }).lean().exec();
+    const habitWithCompletions = { ...habit, completions };
+
+    res.status(200).json(habitWithCompletions);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(500).json({ error: err.message });
   }
 });
-
 
 router.put('/:habitId', authenticateJWT, async (req, res) => {
   try {
@@ -69,7 +79,7 @@ router.put('/:habitId', authenticateJWT, async (req, res) => {
 
     res.status(200).json(habit);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(500).json({ error: err.message });
   }
 });
 
@@ -84,7 +94,7 @@ router.delete('/:id', authenticateJWT, async (req, res) => {
     await Habit.deleteOne({ _id: req.params.id });
     res.status(200).json({ message: 'Habit deleted successfully' });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(500).json({ error: err.message });
   }
 });
 

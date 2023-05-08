@@ -24,24 +24,21 @@ const HabitDetails = () => {
     5: 'friday',
     6: 'saturday',
   };
-
+  
   const fetchHabitData = async () => {
     try {
-
       const habitResponse = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/habits/${habitId}`, {
         headers: { Authorization: `${token}` },
       });
-
-      const completionsResponse = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/habits/habitCompletions/${habitId}`, {
-        headers: { Authorization: `${token}` },
-      });
-
+  
       setHabit(habitResponse.data);
-      setCompletions(completionsResponse.data);
+      console.log(habitResponse.data);
+      setCompletions(habitResponse.data.completions); // Set completions directly from the habit response
     } catch (error) {
       console.error(error);
     }
   };
+  
   useEffect(() => {
     fetchHabitData();
   }, [habitId]);
@@ -56,7 +53,7 @@ const HabitDetails = () => {
     if(habit.daysOfWeek.length === 0) {
       return true;
     }
-    const dayOfWeek = daysOfWeekMap[date.getDate()];
+    const dayOfWeek = daysOfWeekMap[date.getDay()];
     return habit.daysOfWeek.includes(dayOfWeek);
   }
   
@@ -65,23 +62,24 @@ const HabitDetails = () => {
       date1.getMonth() === date2.getMonth() &&
       date1.getDate() === date2.getDate();
   }
-
+  
   const colorCodeFunction = (date) => {
     const today = new Date();
     const completionDates = completions.map((completion) => new Date(completion.completionDate));
   
-    if (completionDates.some((completionDate) => completionDate.toDateString() === date.toDateString())) {
+    if (completionDates.some((completionDate) => isSameDay(completionDate, date))) {
       return 'green';
-    } else if (shouldHabitBeCompletedOnDate(date) && date > today) {
+    } else if (shouldHabitBeCompletedOnDate(date) && date.getTime() > today.getTime()) {
       return 'purple';
-    } else if(shouldHabitBeCompletedOnDate(date) && date < today) {
-      if(isSameDay(date, today)) {
+    } else if (shouldHabitBeCompletedOnDate(date) && date.getTime() < today.getTime()) {
+      if (isSameDay(date, today)) {
         return 'today';
       }
       return 'red';
     }
     return 'white';
   };
+  
   
 
   if (!habit) return <p>Loading...</p>;
