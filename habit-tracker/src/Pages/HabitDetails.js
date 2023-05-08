@@ -56,11 +56,18 @@ const HabitDetails = () => {
     if(habit.daysOfWeek.length === 0) {
       return true;
     }
-    const dayOfWeek = daysOfWeekMap[date.getDay()];
+    const dayOfWeek = daysOfWeekMap[date.getDate()];
     return habit.daysOfWeek.includes(dayOfWeek);
+  }
+  
+  function isSameDay(date1, date2) {
+    return date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate();
   }
 
   const colorCodeFunction = (date) => {
+    const today = new Date();
     const completionDates = completions.map((completion) => new Date(completion.completionDate));
   
     if (completionDates.some((completionDate) => completionDate.toDateString() === date.toDateString())) {
@@ -68,6 +75,9 @@ const HabitDetails = () => {
     } else if (shouldHabitBeCompletedOnDate(date) && date > today) {
       return 'purple';
     } else if(shouldHabitBeCompletedOnDate(date) && date < today) {
+      if(isSameDay(date, today)) {
+        return 'today';
+      }
       return 'red';
     }
     return 'white';

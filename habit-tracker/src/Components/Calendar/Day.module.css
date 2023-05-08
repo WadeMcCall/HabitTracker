@@ -7,7 +7,7 @@
 }
 
 .selected {
-  @apply bg-amber-100 border border-amber-500 font-bold;
+  @apply bg-sky-100 border border-sky-500 font-bold;
 }
 
 .white {
@@ -24,5 +24,10 @@
 
 .purple {
   @apply bg-purple-100 border border-purple-500;
+}
+  
+
+.today {
+  @apply bg-yellow-100 border border-yellow-500;
 }
   
