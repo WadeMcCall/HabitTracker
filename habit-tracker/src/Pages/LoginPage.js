@@ -25,7 +25,9 @@ function LoginPage() {
   
       if (response.status === 200) {
         const { token } = response.data;
+        console.log("Received auth token:", token);
         cookies.set('authToken', token, {expires: new Date(Date.now() + 24*60*60*1000)});
+        console.log("Auth token set in cookies");
         navigate("/");
       } else {
         console.error('Login failed');
