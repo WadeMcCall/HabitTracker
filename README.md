@@ -1,0 +1,3 @@
+# HabitTracker
+
+Habit tracking web application written using the MERN tech stack. This project is still a baby...
